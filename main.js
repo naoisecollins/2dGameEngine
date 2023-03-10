@@ -1,6 +1,7 @@
 // Get the player element and initialize its position
 const player = document.getElementById("player");
 let playerX = 0;
+let playerY = 0;
 
 // Define the keydown event listener to handle player movement
 document.addEventListener("keydown", event => {
@@ -11,6 +12,12 @@ document.addEventListener("keydown", event => {
     case "ArrowRight":
       playerX += 10;
       break;
+    case "ArrowUp":
+      playerY -= 10;
+      break;
+    case "ArrowDown":
+      playerY += 10;
+      break;
     default:
       return;
   }
@@ -18,4 +25,6 @@ document.addEventListener("keydown", event => {
 
   // Update the player's position
   player.style.left = `${playerX}px`;
+  player.style.top = `${playerY}px`;
+
 });
