@@ -1,7 +1,7 @@
 // Get the player element and initialize its position
 const player = document.getElementById("player");
 let playerX = 0;
-let playerY = 0;
+let playerY = 75;
 
 // Define the keydown event listener to handle player movement
 document.addEventListener("keydown", event => {
