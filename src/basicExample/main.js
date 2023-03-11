@@ -15,17 +15,19 @@ let enemyY = Math.random() * (gameHeight - playerHeight);
 // Define the game loop function
 function gameLoop() {
   // Handle player movement
-  if (keys.ArrowLeft && playerX > 0) {
-    playerX -= 10;
-  }
-  if (keys.ArrowRight && playerX < gameWidth - playerWidth) {
-    playerX += 10;
-  }
-  if (keys.ArrowUp && playerY > 0) {
-    playerY -= 10;
-  }
-  if (keys.ArrowDown && playerY < gameHeight - playerHeight) {
-    playerY += 10;
+  if (!gameOver) {
+    if (keys.ArrowLeft && playerX > 0) {
+      playerX -= 3;
+    }
+    if (keys.ArrowRight && playerX < gameWidth - playerWidth) {
+      playerX += 3;
+    }
+    if (keys.ArrowUp && playerY > 0) {
+      playerY -= 3;
+    }
+    if (keys.ArrowDown && playerY < gameHeight - playerHeight) {
+      playerY += 3;
+    }
   }
 
   // Update the player's position
@@ -49,7 +51,10 @@ function gameLoop() {
   const collisionDistance = playerWidth / 2 + enemy.offsetWidth / 2;
   if (distance < collisionDistance) {
     // Collision detected, end the game
+    player.style.opacity = 0;
+    gameOver = true;
     endGame();
+    
   } else {
     // No collision, continue the game
     requestAnimationFrame(gameLoop);
@@ -57,10 +62,11 @@ function gameLoop() {
 }
 
 // Start the game loop
+let gameOver = false;
 requestAnimationFrame(gameLoop);
 
 // Define the keydown event listener to handle player movement
-const keys = {};
+let keys = {};
 document.addEventListener("keydown", event => {
   keys[event.key] = true;
 });
@@ -72,5 +78,18 @@ document.addEventListener("keyup", event => {
 // Define the end game function
 function endGame() {
   // Display the game over message
-  alert("Game Over");
+  alert("Game Over"); 
+  resetGame();
+}
+
+function resetGame() {
+  playerX = 0;
+  playerY = 75;
+  enemyX = Math.random() * (gameWidth - playerWidth);
+  enemyY = Math.random() * (gameHeight - playerHeight);
+  keys = {}; // reset keys object
+  player.style.opacity = 1;
+  gameOver = false;
+  requestAnimationFrame(gameLoop);
+  
 }
