@@ -3,17 +3,27 @@ import Player from "./player.js";
 import Enemy from "./enemy.js";
 import Collectible from "./collectable.js";
 import Sound from "./sounds.js";
+import UI from "./ui.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const sound = new Sound();
+const ui = new UI(canvas);
 
 canvas.width = 800;
 canvas.height = 600;
 
 const player = new Player(50, 50, 30, 30, "blue",1000,800,600);
 const enemy = new Enemy(800,600,50,50,"red",1);
-const collectible = new Collectible(400, 300, 20, "yellow");
+const collectibles = [];
+
+// Add collectibles every 5 seconds
+setInterval(() => {
+  const x = Math.random() * canvas.width;
+  const y = Math.random() * canvas.height;
+  const collectible = new Collectible(x, y, 20, "yellow");
+  collectibles.push(collectible);
+}, 5000);
 
 function gameLoop(lastTime) {
   // Calculate the deltaTime since the last frame
@@ -24,23 +34,27 @@ function gameLoop(lastTime) {
 
   player.draw(ctx);
   enemy.draw(ctx);
-  collectible.draw(ctx);
 
   // Check for collision with the collectible
-  if (!collectible.isCollected) {
-    collectible.checkCollision(player);
-  if(collectible.isCollected){  
-    sound.play("collect");}
-  }
-  
-
+  collectibles.forEach((collectible, index) => {
+    if (!collectible.isCollected) {
+      collectible.draw(ctx);
+      collectible.checkCollision(player);
+      if (collectible.isCollected) {
+        console.log("collectible collected");
+        sound.play("collect");
+        ui.updateScore(10);
+        collectibles.splice(index, 1);
+      }
+    }
+  });
+  ui.drawScore(ctx, 10, 30);
   // Update the player and enemy
   player.update(deltaTime);
   enemy.update(player, deltaTime);
 
   requestAnimationFrame(() => gameLoop(currentTime));
 }
-
 gameLoop(performance.now());
 
 document.addEventListener("keydown", (event) => {
