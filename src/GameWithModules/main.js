@@ -12,6 +12,7 @@ const sound = new Sound();
 const ui = new UI(canvas);
 let canDecrementLives = true;
 
+
 canvas.width = 800;
 canvas.height = 600;
 
@@ -36,6 +37,10 @@ function gameLoop(lastTime) {
 
   player.draw(ctx);
   enemy.draw(ctx);
+  if(!sound.bgSoundPlaying){
+  sound.playBackgroundMusic();
+  sound.bgSoundPlaying = true; 	
+  }
 
    // Check for collision with the enemy
    if (detectCollision(player, enemy)) {
