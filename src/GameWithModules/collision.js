@@ -43,5 +43,5 @@ function detectCollision(obj1, obj2) {
     return Math.max(min, Math.min(value, max));
   }
   
-  export default {circleRectCollision, detectCollision};
+  export {circleRectCollision, detectCollision};
   
