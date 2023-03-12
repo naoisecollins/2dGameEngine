@@ -16,6 +16,7 @@ const ui = new UI(canvas);
 canvas.width = 800;
 canvas.height = 600;
 
+let canDecrementLives = true; 
 // Create new Player and Enemy objects
 const player = new Player(50, 50, 30, 30, "blue",1000,800,600);
 const enemy = new Enemy(800,600,50,50,"red",1);
