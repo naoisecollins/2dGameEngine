@@ -13,12 +13,19 @@ class Enemy {
       ctx.fillRect(this.x, this.y, this.width, this.height);
     }
   
-    update() {
-      // Handle enemy movement and collision detection here
-      this.x += this.speed;
-      if (this.x + this.width > canvas.width || this.x < 0) {
-        this.speed = -this.speed;
-      }
+    update(player) {
+      // Calculate the direction vector from enemy to player
+      const dx = player.x - this.x;
+      const dy = player.y - this.y;
+  
+      // Normalize the direction vector
+      const distance = Math.sqrt(dx*dx + dy*dy);
+      const directionX = dx / distance;
+      const directionY = dy / distance;
+  
+      // Move the enemy towards the player
+      this.x += directionX * this.speed;
+      this.y += directionY * this.speed;
     }
   }
   
