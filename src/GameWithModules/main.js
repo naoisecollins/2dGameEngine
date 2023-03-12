@@ -10,6 +10,7 @@ const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 const sound = new Sound();
 const ui = new UI(canvas);
+let canDecrementLives = true;
 
 canvas.width = 800;
 canvas.height = 600;
@@ -36,11 +37,16 @@ function gameLoop(lastTime) {
   player.draw(ctx);
   enemy.draw(ctx);
 
-  // Check for collision with the enemy
-  if (detectCollision(player, enemy)) {
-    console.log("player destroyed");
-    //sound.play("destroy");
-    ui.decrementLives();
+   // Check for collision with the enemy
+   if (detectCollision(player, enemy)) {
+    if (canDecrementLives) {
+      console.log("player destroyed");
+      ui.decrementLives();
+      canDecrementLives = false;
+      setTimeout(() => {
+        canDecrementLives = true;
+      }, 2000); // delay the next call to decrementLives() by 2 seconds
+    }
   }
 
 
