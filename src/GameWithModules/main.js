@@ -4,6 +4,7 @@ import Enemy from "./enemy.js";
 import Collectible from "./collectible.js";
 import Sound from "./sounds.js";
 import UI from "./ui.js";
+import { circleRectCollision, detectCollision } from "./collision.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
@@ -35,20 +36,28 @@ function gameLoop(lastTime) {
   player.draw(ctx);
   enemy.draw(ctx);
 
-  // Check for collision with the collectible
-  collectibles.forEach((collectible, index) => {
-    if (!collectible.isCollected) {
-      collectible.draw(ctx);
-      collectible.checkCollision(player);
-      if (collectible.isCollected) {
-        console.log("collectible collected");
-        sound.play("collect");
-        ui.updateScore(10);
-        collectibles.splice(index, 1);
-      }
+  // Check for collision with the enemy
+  if (detectCollision(player, enemy)) {
+    console.log("player destroyed");
+    //sound.play("destroy");
+    ui.decrementLives();
+  }
+
+
+// Check for collision with the collectible
+collectibles.forEach((collectible) => {
+  if (!collectible.isCollected) {
+    collectible.draw(ctx);
+    if (circleRectCollision(collectible, player)) {
+      console.log("collectible collected");
+      sound.play("collect");
+      ui.updateScore(10);
+      collectible.isCollected = true;
     }
-  });
+  }
+});
   ui.drawScore(ctx, 10, 30);
+  ui.drawLives(ctx,10,30);
   // Update the player and enemy
   player.update(deltaTime);
   enemy.update(player, deltaTime);

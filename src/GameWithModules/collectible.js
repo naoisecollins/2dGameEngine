@@ -18,18 +18,6 @@ class Collectible {
         ctx.closePath();
       }
     }
-  
-    checkCollision(player) {
-      // Calculate the distance between the player and the collectible
-      const dx = player.x - this.x;
-      const dy = player.y - this.y;
-      const distance = Math.sqrt(dx * dx + dy * dy);
-  
-      // If the player and the collectible are close enough, mark the collectible as collected
-      if (distance < player.width / 2 + this.radius) {
-        this.isCollected = true;
-      }
-    }
   }
   
   export default Collectible;
