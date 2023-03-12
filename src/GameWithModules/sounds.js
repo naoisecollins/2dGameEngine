@@ -4,6 +4,7 @@ class Sound {
     constructor() {
       this.sounds = {};
       this.loadSounds();
+      this.bgSoundPlaying = false; 
     }
   
     loadSounds() {
@@ -19,6 +20,11 @@ class Sound {
         this.sounds[soundName].currentTime = 0;
         this.sounds[soundName].play();
       }
+    }
+    playBackgroundMusic() {
+      const bgMusic = new Audio("./resources/background_music.mp3");
+      bgMusic.loop = true;
+      bgMusic.play();
     }
   }
   
