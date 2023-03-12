@@ -2,9 +2,11 @@
 import Player from "./player.js";
 import Enemy from "./enemy.js";
 import Collectible from "./collectable.js";
+import Sound from "./sounds.js";
 
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const sound = new Sound();
 
 canvas.width = 800;
 canvas.height = 600;
@@ -27,7 +29,10 @@ function gameLoop(lastTime) {
   // Check for collision with the collectible
   if (!collectible.isCollected) {
     collectible.checkCollision(player);
+  if(collectible.isCollected){  
+    sound.play("collect");}
   }
+  
 
   // Update the player and enemy
   player.update(deltaTime);
