@@ -6,6 +6,7 @@ class Collectible {
       this.radius = radius;
       this.color = color;
       this.isCollected = false;
+      this.soundPlayed = false;
     }
   
     draw(ctx) {
