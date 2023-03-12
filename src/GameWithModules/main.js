@@ -1,7 +1,7 @@
 // main.js
 import Player from "./player.js";
 import Enemy from "./enemy.js";
-import Collectible from "./collectable.js";
+import Collectible from "./collectible.js";
 import Sound from "./sounds.js";
 import UI from "./ui.js";
 
