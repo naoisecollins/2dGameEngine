@@ -36,6 +36,11 @@ function gameLoop(lastTime) {
   const currentTime = performance.now();
   const deltaTime = (currentTime - lastTime) / 1000;
 
+  if (ui.lives <= 0) {
+    endGame();
+    //return;
+  }
+
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
   player.draw(ctx);
@@ -128,4 +133,21 @@ document.addEventListener("keyup", (event) => {
       break;
   }
 });
+function endGame() {
+  // Stop any game sounds that may be playing
+  sound.stopBackgroundMusic();
+  //sound.play("gameOver");
+
+  // Display a game over message
+  ui.drawGameOver(ctx);
+
+  // Stop the game loop by removing the recursive call to gameLoop()
+  // and remove the event listeners for keydown and keyup
+  document.removeEventListener("keydown");
+  document.removeEventListener("keyup");
+
+  setTimeout(() => {
+    window.location.href = window.location.href;
+  }, 5000);
+}
 
