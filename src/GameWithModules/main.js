@@ -1,65 +1,41 @@
-// Get the canvas element and its context
+// main.js
+import Player from "./player.js";
+import Enemy from "./enemy.js";
+
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
 
-// Initialize the player and enemy positions
-const playerWidth = 50;
-const playerHeight = 50;
-let playerX = 0;
-let playerY = canvas.height / 2 - playerHeight / 2;
-const enemyWidth = 50;
-const enemyHeight = 50;
-let enemyX = canvas.width - enemyWidth;
-let enemyY = canvas.height / 2 - enemyHeight / 2;
+canvas.width = 800;
+canvas.height = 600;
 
-// Define the game loop function
+const player = new Player(50, 50, 30, 30, "blue");
+const enemy = new Enemy(50,50,50,50,"red",5);
 function gameLoop() {
-  // Clear the canvas
   ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  // Draw the player and enemy
-  ctx.fillStyle = "blue";
-  ctx.fillRect(playerX, playerY, playerWidth, playerHeight);
-  ctx.fillStyle = "red";
-  ctx.fillRect(enemyX, enemyY, enemyWidth, enemyHeight);
+  player.draw(ctx);
+  enemy.draw(ctx);
+  player.update();
+  enemy.update();
 
-  // Move the enemy towards the player
-  const enemySpeed = 1;
-  const dx = playerX - enemyX;
-  const dy = playerY - enemyY;
-  const distance = Math.sqrt(dx * dx + dy * dy);
-  if (distance > 0) {
-    enemyX += dx / distance * enemySpeed;
-    enemyY += dy / distance * enemySpeed;
-  }
-
-  // Update the player's position
-  if (keys.ArrowLeft && playerX > 0) {
-    playerX -= 3;
-  }
-  if (keys.ArrowRight && playerX < canvas.width - playerWidth) {
-    playerX += 3;
-  }
-  if (keys.ArrowUp && playerY > 0) {
-    playerY -= 3;
-  }
-  if (keys.ArrowDown && playerY < canvas.height - playerHeight) {
-    playerY += 3;
-  }
-
-  // Request the next frame
   requestAnimationFrame(gameLoop);
 }
 
-// Start the game loop
-let keys = {};
-requestAnimationFrame(gameLoop);
+gameLoop();
 
-// Define the keydown event listener to handle player movement
-document.addEventListener("keydown", event => {
-  keys[event.key] = true;
-});
-
-document.addEventListener("keyup", event => {
-  keys[event.key] = false;
+document.addEventListener("keydown", (event) => {
+  switch (event.key) {
+    case "ArrowLeft":
+      player.moveLeft();
+      break;
+    case "ArrowRight":
+      player.moveRight();
+      break;
+    case "ArrowUp":
+      player.moveUp();
+      break;
+    case "ArrowDown":
+      player.moveDown();
+      break;
+  }
 });
