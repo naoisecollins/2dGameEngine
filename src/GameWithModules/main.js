@@ -145,9 +145,5 @@ function endGame() {
   // and remove the event listeners for keydown and keyup
   document.removeEventListener("keydown");
   document.removeEventListener("keyup");
-
-  setTimeout(() => {
-    window.location.href = window.location.href;
-  }, 5000);
 }
 

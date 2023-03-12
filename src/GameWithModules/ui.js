@@ -36,7 +36,7 @@ class UI {
         const buttonHeight = 50;
         const buttonX = canvas.width / 2 - buttonWidth / 2;
         const buttonY = canvas.height / 2 + 50;
-        ctx.fillStyle = "green";
+        ctx.fillStyle = "red";
         ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
       
         ctx.fillStyle = "white";
